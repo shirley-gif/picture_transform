@@ -1,0 +1,116 @@
+/* line 3, app/assets/stylesheets/zoom-viewer.scss */
+.zoom-viewer-container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: calc(100% - 120px);
+}
+
+@media all and (min-height: 36em) {
+  /* line 3, app/assets/stylesheets/zoom-viewer.scss */
+  .zoom-viewer-container {
+    height: calc(100% - 170px);
+  }
+}
+
+@media all and (min-height: 50em) {
+  /* line 3, app/assets/stylesheets/zoom-viewer.scss */
+  .zoom-viewer-container {
+    height: calc(100% - 220px);
+  }
+}
+
+/* line 18, app/assets/stylesheets/zoom-viewer.scss */
+.zoom-viewer-container:last-child {
+  height: 100%;
+}
+
+/* line 24, app/assets/stylesheets/zoom-viewer.scss */
+.zoom-viewer-image-list {
+  background-color: #f7f7f8;
+  list-style: none;
+  margin: 0;
+}
+
+/* line 29, app/assets/stylesheets/zoom-viewer.scss */
+.zoom-viewer-image-list li {
+  margin: 0;
+  height: 100px;
+}
+
+@media all and (min-height: 36em) {
+  /* line 29, app/assets/stylesheets/zoom-viewer.scss */
+  .zoom-viewer-image-list li {
+    height: 150px;
+  }
+}
+
+@media all and (min-height: 50em) {
+  /* line 29, app/assets/stylesheets/zoom-viewer.scss */
+  .zoom-viewer-image-list li {
+    height: 200px;
+  }
+}
+
+/* line 44, app/assets/stylesheets/zoom-viewer.scss */
+.zoom-viewer-image-thumbnail-link {
+  height: 100%;
+}
+
+/* line 48, app/assets/stylesheets/zoom-viewer.scss */
+#full-screen-toggle, #close-button, #zoom-out, #zoom-in {
+  background-position: center;
+}
+
+/* line 54, app/assets/stylesheets/zoom-viewer.scss */
+#zoom-in {
+  background-image: url(/m/assets/zoom-in-icon-eff42a08c3962732a6df86ba8ac2b763b067260f40d485e31063cb2492984da1.svg);
+}
+
+/* line 60, app/assets/stylesheets/zoom-viewer.scss */
+#zoom-out {
+  background-image: url(/m/assets/zoom-out-icon-0939d242ed797d22bc56a6aee0f30c766bcfd30a3f3844afaf9206801d84df11.svg);
+}
+
+/* line 66, app/assets/stylesheets/zoom-viewer.scss */
+#close-button {
+  background-image: url(/m/assets/close-icon-37cb789b88838354f724f62177acb7a9ba272dcc7f943d9c7478f118cc8add4b.svg);
+}
+
+/* line 72, app/assets/stylesheets/zoom-viewer.scss */
+#full-screen-toggle {
+  background-image: url(/m/assets/full-screen-open-fb04f33e669f02c2b69c09d2714e569843c246bf80e63c8c5ec17fa14b372645.svg);
+}
+
+/* line 77, app/assets/stylesheets/zoom-viewer.scss */
+:fullscreen #full-screen-toggle {
+  background-image: url(/m/assets/full-screen-close-3fb96466806fab9764c73711ea2204711f7c7a22e28424be1ee4aec250529ca7.svg);
+}
+
+/* line 81, app/assets/stylesheets/zoom-viewer.scss */
+.no-fullscreen #full-screen-toggle {
+  display: none;
+}
+
+/* line 86, app/assets/stylesheets/zoom-viewer.scss */
+.thumbnail-row-container:after, .thumbnail-row-container:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 20px;
+  z-index: 1;
+}
+
+/* line 96, app/assets/stylesheets/zoom-viewer.scss */
+.thumbnail-row-container:before {
+  background-image: linear-gradient(to left, rgba(247, 247, 248, 0), #f7f7f8);
+  left: 0;
+}
+
+/* line 103, app/assets/stylesheets/zoom-viewer.scss */
+.thumbnail-row-container:after {
+  background-image: linear-gradient(to right, rgba(247, 247, 248, 0), #f7f7f8);
+  right: 0;
+}

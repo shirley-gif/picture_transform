@@ -1,0 +1,497 @@
+@charset "UTF-8";
+/*
+Mixin for creating rules for properties, which have -top, -bottom, -left and -right variants (e.g. border).
+
+The classes will be created such that the more specific ones are listed last, so that they override the less specific ones.
+
+Example:
+  @mixin all-sides("border", (thin: "1px solid silver", thick: "1em solid silver"))
+
+  will create:
+  .thin-border { border-top: 1px solid silver; }
+  .thick-border { border-top: 1em solid silver; }
+
+  .thin-border-y { border-bottom: 1px solid silver; border-top: 1px solid silver; }
+  .thin-border-x { border-left: 1px solid silver; border-right: 1px solid silver; }
+
+  .thick-border-y { border-bottom: 1em solid silver; border-top: 1em solid silver; }
+  .thick-border-x { border-left: 1em solid silver; border-right: 1em solid silver; }
+
+  .thin-border-top { border-top: 1px solid silver;}
+  .thin-border-bottom { border-bottom: 1px solid silver; }
+  .thin-border-left { border-left: 1px solid silver; }
+  .thin-border-right { border-right: 1px solid silver; }
+
+  .thick-border-top { border-top: 1em solid silver;}
+  .thick-border-bottom { border-bottom: 1em solid silver; }
+  .thick-border-left { border-left: 1em solid silver; }
+  .thick-border-right { border-right: 1em solid silver; }
+*/
+/*
+Mixin for generating CSS classes to style different link states/
+
+Example:
+
+    @include all-link-states('underline') {
+        text-decoration: underline;
+    }
+
+will generate these 4 classes:
+
+    .underline                { text-decoration: underline; }
+    .focus\:underline:focus   { text-decoration: underline; }
+    .hover\:underline:hover   { text-decoration: underline; }
+    .active\:underline:active { text-decoration: underline; }
+*/
+/* line 1, app/assets/stylesheets/_yass.scss */
+.yass-content {
+  backface-visibility: hidden;
+  display: table;
+  perspective: 1000;
+  table-layout: fixed;
+  transform: translate3d(0, 0, 0);
+  transition: transform .4s ease-in;
+}
+
+/* line 10, app/assets/stylesheets/_yass.scss */
+.touch .yass-content {
+  transition: transform .2s ease-in;
+}
+
+/* line 14, app/assets/stylesheets/_yass.scss */
+.yass-content > li {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/* line 20, app/assets/stylesheets/_yass.scss */
+.yass-nav-prev,
+.yass-nav-next {
+  background-color: white;
+  background-size: 50%;
+  border-radius: 10px;
+  color: #333;
+  border-color: #333;
+  display: none;
+  font-size: 20px;
+  margin: -30px 0 0 0;
+  opacity: 0;
+  position: absolute;
+  text-decoration: none;
+  top: 50%;
+  transition: all .5s ease-in;
+  transition-delay: 1s;
+  width: 60px;
+}
+
+/* line 40, app/assets/stylesheets/_yass.scss */
+.yass-nav-prev:active,
+.yass-nav-next:active {
+  background-color: white;
+  color: #333;
+}
+
+/* line 42, app/assets/stylesheets/_yass.scss */
+.yass-nav-prev:focus,
+.yass-nav-next:focus {
+  outline: none;
+}
+
+/* line 44, app/assets/stylesheets/_yass.scss */
+.touch .yass-nav-prev, .yass:hover .yass-nav-prev, .touch .yass-nav-next, .yass:hover .yass-nav-next {
+  transition-delay: 0s;
+  transition-duration: .2s;
+  opacity: .4;
+}
+
+/* line 50, app/assets/stylesheets/_yass.scss */
+.touch .yass-nav-prev[disabled], .yass:hover .yass-nav-prev[disabled], .touch .yass-nav-next[disabled], .yass:hover .yass-nav-next[disabled] {
+  opacity: 0;
+}
+
+@media screen and (min-width: 30rem) {
+  /* line 54, app/assets/stylesheets/_yass.scss */
+  .yass-ready .yass-nav-prev, .yass-ready .yass-nav-next {
+    display: block;
+  }
+}
+
+/* line 57, app/assets/stylesheets/_yass.scss */
+.not-mobile .yass-ready .yass-nav-prev, .not-mobile .yass-ready .yass-nav-next {
+  display: block;
+}
+
+/* line 61, app/assets/stylesheets/_yass.scss */
+.yass-nav-prev {
+  left: 20px;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjQgMjQiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHBvaW50cz0iMTUuNSwyMSA2LjUsMTIgMTUuNSwzICIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==);
+}
+
+/* line 66, app/assets/stylesheets/_yass.scss */
+.yass-nav-next {
+  right: 20px;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjQgMjQiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHBvaW50cz0iOC41LDMgMTcuNSwxMiA4LjUsMjEgIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+);
+}
+
+/* line 71, app/assets/stylesheets/_yass.scss */
+.yass-paging-links {
+  list-style: none;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+/* line 78, app/assets/stylesheets/_yass.scss */
+.yass-paging-links li {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px;
+}
+
+/* line 85, app/assets/stylesheets/_yass.scss */
+.yass-paging-link {
+  border-radius: 100%;
+  border: 1px solid #9a1830;
+  display: block;
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+}
+
+@media screen and (max-width: 30rem) {
+  /* line 95, app/assets/stylesheets/_yass.scss */
+  .current > .yass-paging-link {
+    background-color: #9a1830;
+  }
+  /* line 97, app/assets/stylesheets/_yass.scss */
+  .yass-paging-link > * {
+    display: none !important;
+  }
+}
+
+/* line 103, app/assets/stylesheets/_yass.scss */
+.yass-thumbnail {
+  display: none;
+  width: 10px;
+  height: 10px;
+}
+
+@media screen and (min-width: 30rem) {
+  /* line 112, app/assets/stylesheets/_yass.scss */
+  .yass-paging-links {
+    position: static;
+  }
+  /* line 116, app/assets/stylesheets/_yass.scss */
+  .yass-paging-links li {
+    margin: 10px;
+    float: left;
+    position: relative;
+  }
+  /* line 121, app/assets/stylesheets/_yass.scss */
+  .yass-paging-links li.current:after {
+    content: ' ';
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    border: 10px solid transparent;
+    border-bottom-color: #f7f7f8;
+  }
+  /* line 135, app/assets/stylesheets/_yass.scss */
+  .yass-paging-link {
+    border-radius: 0;
+    border: 0;
+    width: auto;
+    height: auto;
+  }
+  /* line 142, app/assets/stylesheets/_yass.scss */
+  .yass-thumbnail {
+    display: block;
+    height: 80px;
+    width: auto;
+  }
+}
+
+/* line 5, app/assets/stylesheets/show-lot.scss */
+.lot-images {
+  overflow: hidden;
+  position: relative;
+}
+
+/* line 6, app/assets/stylesheets/show-lot.scss */
+.lot-images:not(.yass) {
+  background-color: white;
+  padding: 20px 0;
+}
+
+/* line 14, app/assets/stylesheets/show-lot.scss */
+.lot-images .spacer {
+  display: block;
+  max-height: 240px;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+/* line 22, app/assets/stylesheets/show-lot.scss */
+.lot-images .no-aspect {
+  position: static;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 240px;
+}
+
+@media (min-height: 600px) and (min-width: 415px) {
+  /* line 31, app/assets/stylesheets/show-lot.scss */
+  .lot-images .no-aspect,
+.lot-images .spacer {
+    max-height: 480px;
+  }
+}
+
+@media (min-height: 720px) {
+  /* line 36, app/assets/stylesheets/show-lot.scss */
+  .lot-images .no-aspect,
+.lot-images .spacer {
+    max-height: 600px;
+  }
+}
+
+@media print {
+  /* line 41, app/assets/stylesheets/show-lot.scss */
+  .lot-images .no-aspect,
+.lot-images .spacer {
+    max-height: 240px;
+  }
+}
+
+@media (max-width: 30rem) {
+  /* line 5, app/assets/stylesheets/show-lot.scss */
+  .lot-images {
+    width: auto;
+  }
+}
+
+/* line 50, app/assets/stylesheets/show-lot.scss */
+.lot-image-link {
+  position: relative;
+  background-color: transparent;
+  display: inline-block;
+  vertical-align: bottom;
+  max-width: 100%;
+}
+
+/* line 59, app/assets/stylesheets/show-lot.scss */
+.lot-title .cell + .cell {
+  padding-left: 30px;
+}
+
+@media (min-width: 30rem) {
+  /* line 59, app/assets/stylesheets/show-lot.scss */
+  .lot-title .cell + .cell {
+    padding-left: 10px;
+    margin-left: 0;
+  }
+}
+
+/* line 71, app/assets/stylesheets/show-lot.scss */
+time.bidding-deadline.last-chance .relative-time {
+  color: red;
+}
+
+/* line 73, app/assets/stylesheets/show-lot.scss */
+time.bidding-deadline.last-chance .date,
+time.bidding-deadline.last-chance .time {
+  display: none;
+}
+
+/* line 78, app/assets/stylesheets/show-lot.scss */
+.maxbid-suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: none;
+  top: 60px;
+}
+
+/* line 87, app/assets/stylesheets/show-lot.scss */
+.maxbid-suggestions li {
+  margin: 0;
+  padding: 0 10px;
+  line-height: 39px;
+  text-align: right;
+}
+
+/* line 93, app/assets/stylesheets/show-lot.scss */
+.maxbid-suggestions li.current, .maxbid-suggestions li:hover {
+  background-color: rgba(217, 217, 217, 0.9);
+}
+
+/* line 99, app/assets/stylesheets/show-lot.scss */
+.maxbid-suggestions .modal-dropdown-arrow {
+  top: -9px;
+}
+
+/* line 106, app/assets/stylesheets/show-lot.scss */
+.max-bid input {
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid #808080;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-radius: 5px 0 0 5px;
+  border-right: 0;
+  padding: 10px 10px;
+  width: 100%;
+}
+
+/* line 118, app/assets/stylesheets/show-lot.scss */
+.max-bid input:focus {
+  border-color: #333;
+  color: #333;
+  background-color: #f7f7f8;
+  outline: none;
+}
+
+/* line 126, app/assets/stylesheets/show-lot.scss */
+.max-bid button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* line 134, app/assets/stylesheets/show-lot.scss */
+#max_bid .form-line {
+  max-width: 420px;
+}
+
+/* line 137, app/assets/stylesheets/show-lot.scss */
+#max_bid .form-line button {
+  width: 100%;
+}
+
+@keyframes pulsate {
+  0% {
+    background-color: #e8e8e3;
+    box-shadow: 0 0 5px #6e1122;
+  }
+  50% {
+    background-color: #f4f4f1;
+    box-shadow: 0 0 10px #6e1122;
+    color: #9a1830;
+    border-color: #9a1830;
+  }
+  100% {
+    background-color: #e8e8e3;
+    box-shadow: 0 0 5px #6e1122;
+  }
+}
+
+/* line 163, app/assets/stylesheets/show-lot.scss */
+button#next_available_bid.last-chance:not([disabled]) {
+  animation: 0, .3s, pulsate, infinite;
+}
+
+/* line 169, app/assets/stylesheets/show-lot.scss */
+#free-form .amount-field {
+  position: relative;
+  padding-right: 0;
+}
+
+/* line 174, app/assets/stylesheets/show-lot.scss */
+#free-form .submit-button {
+  padding-left: 0;
+}
+
+@media screen {
+  /* line 180, app/assets/stylesheets/show-lot.scss */
+  .js .summarize-list {
+    transition: height .3s ease-in-out;
+    height: 160px;
+    overflow-y: hidden;
+  }
+}
+
+/* line 187, app/assets/stylesheets/show-lot.scss */
+.add-photo-action {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  color: #9a1830;
+  display: inline-block;
+}
+
+@media screen and (min-width: 30rem) {
+  /* line 187, app/assets/stylesheets/show-lot.scss */
+  .add-photo-action {
+    transition: none;
+    height: 80px;
+    width: 80px;
+    padding: 10px;
+    border: 2px dashed #c6c7d2;
+    display: table-cell;
+    vertical-align: middle;
+    border-radius: 5px;
+  }
+  /* line 204, app/assets/stylesheets/show-lot.scss */
+  .add-photo-action:active, .add-photo-action:hover {
+    background-color: #e3e3e8;
+  }
+}
+
+/* line 211, app/assets/stylesheets/show-lot.scss */
+.status-list {
+  color: #c6c7d2;
+}
+
+/* line 214, app/assets/stylesheets/show-lot.scss */
+.status-list .current {
+  color: #333;
+}
+
+/* line 218, app/assets/stylesheets/show-lot.scss */
+.status-list > *:not(:last-of-type):after {
+  content: ' →';
+  color: #c6c7d2;
+}
+
+/* line 225, app/assets/stylesheets/show-lot.scss */
+.bid-button {
+  background-color: white;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2));
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  color: #6e1122;
+  border: 1px solid #6e1122;
+  height: 40px;
+  line-height: 38px;
+  border-radius: 0.3125rem;
+  padding: 0 1.25rem;
+  display: inline-block;
+  text-transform: none;
+  font-size: 16px;
+}
+
+/* line 244, app/assets/stylesheets/show-lot.scss */
+.bid-button:disabled, .bid-button[aria-disabled] {
+  color: #808080;
+  border-color: #808080;
+}
+
+/* line 250, app/assets/stylesheets/show-lot.scss */
+.no-touch .bid-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+/* line 254, app/assets/stylesheets/show-lot.scss */
+.bid-button:active:not(:disabled) {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* line 259, app/assets/stylesheets/show-lot.scss */
+a.bid-button:hover {
+  text-decoration: none;
+}
